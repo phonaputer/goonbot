@@ -1,8 +1,8 @@
-package parser
+package executer
 
 import (
 	"github.com/sirupsen/logrus"
-	"goonbot/internal/errutil"
+	"goonbot/internal/localization"
 )
 
 // Operation is an enumeration of arithmetic operations supported by RTD
@@ -24,7 +24,7 @@ func ParseOperation(opStr string) (Operation, error) {
 		return Subtraction, nil
 	}
 
-	return -1, errutil.NewWithUserMsg(msgUnknownArithmetic)
+	return -1, localization.NewWithUserMsg("unknown arithmetic operation", localization.ErrUnknownArithmetic)
 }
 
 func ExecOperation(left int, op Operation, right int) int {
@@ -38,4 +38,15 @@ func ExecOperation(left int, op Operation, right int) int {
 	logrus.Errorf("attempted to exec invalid operation: left: %d, right: %d, operation: %v", left, right, op)
 
 	return -1
+}
+
+func GetOperationStr(op Operation) string {
+	switch op {
+	case Addition:
+		return AdditionStr
+	case Subtraction:
+		return SubtractionStr
+	}
+
+	return ""
 }
