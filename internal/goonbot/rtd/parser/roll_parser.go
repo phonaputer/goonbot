@@ -2,8 +2,8 @@ package parser
 
 import (
 	"fmt"
-	"goonbot/internal/localization"
-	"goonbot/internal/rtd/executer"
+	"goonbot/internal/goonbot/localization"
+	"goonbot/internal/goonbot/rtd/executer"
 	"strconv"
 	"strings"
 )
@@ -18,7 +18,7 @@ type unparsedToken struct {
 	Roll      string
 }
 
-func Parse(input string) ([]executer.Token, error) {
+func Parse(input []string) ([]executer.Token, error) {
 	rawTokens, err := splitInput(input)
 	if err != nil {
 		return nil, err
@@ -37,20 +37,19 @@ func Parse(input string) ([]executer.Token, error) {
 	return result, nil
 }
 
-func splitInput(input string) ([]unparsedToken, error) {
+func splitInput(input []string) ([]unparsedToken, error) {
 	if len(input) < 1 {
 		return nil, localization.NewWithUserMsg("empty input", localization.ErrEmptyInput)
 	}
 
-	args := strings.Split(input, inputSeparator)
-	if len(args) != 1 && len(args)%2 != 1 {
+	if len(input) != 1 && len(input)%2 != 1 {
 		return nil, localization.NewWithUserMsg("invalid num input tokens", localization.ErrMathSeparated)
 	}
 
 	var result []unparsedToken
-	result = append(result, unparsedToken{Operation: executer.AdditionStr, Roll: args[0]})
-	for i := 1; i+1 < len(args); i += 2 {
-		result = append(result, unparsedToken{Operation: args[i], Roll: args[i+1]})
+	result = append(result, unparsedToken{Operation: executer.AdditionStr, Roll: input[0]})
+	for i := 1; i+1 < len(input); i += 2 {
+		result = append(result, unparsedToken{Operation: input[i], Roll: input[i+1]})
 	}
 
 	return result, nil

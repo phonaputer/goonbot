@@ -2,7 +2,7 @@ package executer
 
 import (
 	"github.com/sirupsen/logrus"
-	"goonbot/internal/localization"
+	"goonbot/internal/goonbot/localization"
 )
 
 // Operation is an enumeration of arithmetic operations supported by RTD

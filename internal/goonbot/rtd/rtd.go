@@ -2,12 +2,12 @@ package rtd
 
 import (
 	"fmt"
-	"goonbot/internal/localization"
-	"goonbot/internal/rtd/executer"
-	"goonbot/internal/rtd/parser"
+	"goonbot/internal/goonbot/localization"
+	"goonbot/internal/goonbot/rtd/executer"
+	"goonbot/internal/goonbot/rtd/parser"
 )
 
-func RollTheDice(input string) string {
+func RollTheDice(input []string) string {
 	flags, rollInput := parser.CheckFlags(input)
 
 	rolls, err := parser.Parse(rollInput)

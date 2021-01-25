@@ -1,7 +1,5 @@
 package parser
 
-import "strings"
-
 const (
 	flagPrefix  = "--"
 	verboseFlag = "--v"
@@ -11,13 +9,12 @@ type Flags struct {
 	Verbose bool
 }
 
-func CheckFlags(input string) (flags Flags, inputMinusFlags string) {
-	splitInput := strings.Split(input, " ")
-
+func CheckFlags(input []string) (flags Flags, inputMinusFlags []string) {
 	foundFlags := false
 	lastFlagIdx := 0
 	var flgs Flags
-	for i, token := range splitInput {
+
+	for i, token := range input {
 		if len(token) > 1 && flagPrefix != token[:2] {
 			break
 		}
@@ -30,10 +27,9 @@ func CheckFlags(input string) (flags Flags, inputMinusFlags string) {
 		}
 	}
 
-	resInput := splitInput
-	if foundFlags == true {
-		resInput = splitInput[lastFlagIdx+1:]
+	if foundFlags == true && len(input) > lastFlagIdx+1 {
+		return flgs, input[lastFlagIdx+1:]
 	}
 
-	return flgs, strings.Join(resInput, " ")
+	return flgs, input
 }
