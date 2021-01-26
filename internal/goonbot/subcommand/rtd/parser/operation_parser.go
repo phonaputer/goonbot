@@ -2,7 +2,7 @@ package parser
 
 import (
 	"goonbot/internal/goonbot/localization"
-	"goonbot/internal/goonbot/rtd/domain"
+	"goonbot/internal/goonbot/subcommand/rtd/domain"
 )
 
 func parseOperation(opStr string) (domain.Operation, error) {

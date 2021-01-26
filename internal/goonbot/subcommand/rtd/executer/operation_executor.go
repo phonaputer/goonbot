@@ -3,7 +3,7 @@ package executer
 import (
 	"errors"
 	"github.com/sirupsen/logrus"
-	"goonbot/internal/goonbot/rtd/domain"
+	"goonbot/internal/goonbot/subcommand/rtd/domain"
 )
 
 func execOperation(left int, op domain.Operation, right int) (int, error) {

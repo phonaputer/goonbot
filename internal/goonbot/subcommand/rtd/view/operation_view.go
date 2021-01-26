@@ -3,7 +3,7 @@ package view
 import (
 	"errors"
 	"github.com/sirupsen/logrus"
-	"goonbot/internal/goonbot/rtd/domain"
+	"goonbot/internal/goonbot/subcommand/rtd/domain"
 )
 
 func operationToViewStr(op domain.Operation) (string, error) {

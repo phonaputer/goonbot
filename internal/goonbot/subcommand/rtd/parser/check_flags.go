@@ -1,16 +1,16 @@
 package parser
 
-import "goonbot/internal/goonbot/rtd/domain"
+import "goonbot/internal/goonbot/subcommand/rtd/domain"
 
 const (
 	flagPrefix  = "--"
 	verboseFlag = "--v"
 )
 
-func CheckFlags(input []string) (flags domain.RTDFlags, inputMinusFlags []string) {
+func CheckFlags(input []string) (flags domain.Flags, inputMinusFlags []string) {
 	foundFlags := false
 	lastFlagIdx := 0
-	var flgs domain.RTDFlags
+	var flgs domain.Flags
 
 	for i, token := range input {
 		if len(token) > 1 && flagPrefix != token[:2] {

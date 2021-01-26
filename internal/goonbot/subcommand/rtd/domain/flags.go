@@ -1,5 +1,5 @@
 package domain
 
-type RTDFlags struct {
+type Flags struct {
 	Verbose bool
 }

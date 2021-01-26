@@ -3,7 +3,7 @@ package executer
 import (
 	"errors"
 	"github.com/sirupsen/logrus"
-	"goonbot/internal/goonbot/rtd/domain"
+	"goonbot/internal/goonbot/subcommand/rtd/domain"
 	"math/rand"
 	"time"
 )
@@ -16,7 +16,7 @@ func determineRollTypeAndExec(roll domain.Roll) (domain.RollResult, error) {
 		return execSimpleRoll(typed), nil
 	}
 
-	logrus.Errorf("unknown roll type in expression executor: %v", roll.RollType())
+	logrus.Errorf("unknown roll type in expression executor: %T", roll)
 
 	return nil, errors.New("unknown roll type")
 }

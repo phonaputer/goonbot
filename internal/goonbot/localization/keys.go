@@ -8,7 +8,18 @@ type Key int
 const (
 	UnknownKey Key = iota
 
+	ErrUnknownCommandTitle
 	ErrUnknownErr
+	ErrUnsupportedLanguage
+
+	// Error
+	ErrorTitle
+	ErrorFieldName
+
+	// Help
+	HelpTitle
+	HelpAvailableCommands
+	HelpCommandDetails
 
 	// RTD
 	ErrEmptyInput
@@ -20,5 +31,5 @@ const (
 	RollTotal
 	DiceRollResult
 	SimpleRollResult
-	YourRoll
+	RtdSuccessTitle
 )

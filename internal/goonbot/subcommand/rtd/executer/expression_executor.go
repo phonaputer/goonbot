@@ -2,7 +2,7 @@ package executer
 
 import (
 	"fmt"
-	"goonbot/internal/goonbot/rtd/domain"
+	"goonbot/internal/goonbot/subcommand/rtd/domain"
 )
 
 func ExecuteExpression(e domain.Expression) (domain.ExpressionResult, error) {

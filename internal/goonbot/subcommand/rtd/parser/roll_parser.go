@@ -3,7 +3,7 @@ package parser
 import (
 	"fmt"
 	"goonbot/internal/goonbot/localization"
-	"goonbot/internal/goonbot/rtd/domain"
+	"goonbot/internal/goonbot/subcommand/rtd/domain"
 	"strconv"
 	"strings"
 )
@@ -24,18 +24,18 @@ func looksLikeDiceRoll(maybeRoll string) bool {
 	return strings.Contains(maybeRoll, diceRollSeparator)
 }
 
-func parseAndValidateDiceRoll(opStr, rollStr string) (*domain.DiceRoll, error) {
+func parseAndValidateDiceRoll(opStr, rollStr string) (domain.DiceRoll, error) {
 	op, err := parseOperation(opStr)
 	if err != nil {
-		return nil, fmt.Errorf("error occured while parsing roll token op: %w", err)
+		return domain.DiceRoll{}, fmt.Errorf("error occured while parsing roll token op: %w", err)
 	}
 
 	die, faces, err := parseRoll(rollStr)
 	if err != nil {
-		return nil, fmt.Errorf("error occured while parsing roll token roll: %w", err)
+		return domain.DiceRoll{}, fmt.Errorf("error occured while parsing roll token roll: %w", err)
 	}
 
-	return &domain.DiceRoll{
+	return domain.DiceRoll{
 		NumDie:    die,
 		NumFaces:  faces,
 		Operation: op,
@@ -67,19 +67,19 @@ func parseRoll(rollStr string) (die int, faces int, err error) {
 	return die, faces, nil
 }
 
-func parseAndValidateSimpleRoll(opStr, rollStr string) (*domain.SimpleRoll, error) {
+func parseAndValidateSimpleRoll(opStr, rollStr string) (domain.SimpleRoll, error) {
 	op, err := parseOperation(opStr)
 	if err != nil {
-		return nil, fmt.Errorf("error occured while parsing simple token op: %w", err)
+		return domain.SimpleRoll{}, fmt.Errorf("error occured while parsing simple token op: %w", err)
 	}
 
 	num, err := strconv.Atoi(rollStr)
 	if err != nil {
-		return nil, fmt.Errorf("error occured while parsing simple token num: %w",
+		return domain.SimpleRoll{}, fmt.Errorf("error occured while parsing simple token num: %w",
 			localization.WithUserMsg(err, localization.ErrInvalidDiceFmt))
 	}
 
-	return &domain.SimpleRoll{
+	return domain.SimpleRoll{
 		Number:    num,
 		Operation: op,
 	}, nil
