@@ -10,7 +10,7 @@ func KeyToText(key Key, lang Language) string {
 	case English:
 		res, ok = englishMap[key]
 	default:
-		res, ok = englishMap[key]
+		return KeyToText(key, Default)
 	}
 
 	if !ok {

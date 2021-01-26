@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"goonbot/internal/goonbot/rtd"
 	"strings"
+	"time"
 )
 
 const goonBotCommandPrefix = '!'
@@ -75,6 +76,11 @@ func splitIntoCmdAndArgs(msg string) (string, []string) {
 	return splitMsg[0], nil
 }
 
-func toCodeBlock(msg string) string {
-	return "```\n" + msg + "\n```"
+func toCodeBlock(msg string) interface{} {
+	return disgord.Embed{
+		Title:     "Roll the Dice",
+		Timestamp: disgord.Time{time.Now()},
+		Color:     6684927,
+		Fields:    []*disgord.EmbedField{{Name: "Your roll", Value: "```\n" + msg + "\n```"}},
+	}
 }

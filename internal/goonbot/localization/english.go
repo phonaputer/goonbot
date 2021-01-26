@@ -10,5 +10,8 @@ var englishMap = map[Key]string{
 	ErrInvalidNumDie:     "dice roll xdy: x must be > 0",
 	ErrInvalidNumFaces:   "dice roll xdy: y must be > 1",
 	ErrUnknownArithmetic: "unknown arithmetic operation",
-	YouRolled:            "you rolled: %v",
+	RollTotal:            "total: %v",
+	DiceRollResult:       "\n%s %v\t=>\t %vd%v: %s",
+	SimpleRollResult:     "\n%s %v",
+	YourRoll:             "your roll:",
 }

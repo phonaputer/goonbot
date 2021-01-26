@@ -3,72 +3,29 @@ package parser
 import (
 	"fmt"
 	"goonbot/internal/goonbot/localization"
-	"goonbot/internal/goonbot/rtd/executer"
+	"goonbot/internal/goonbot/rtd/domain"
 	"strconv"
 	"strings"
 )
 
 const (
-	inputSeparator = " "
-	diceSeparator  = "d"
+	diceRollSeparator = "d"
 )
 
-type unparsedToken struct {
-	Operation string
-	Roll      string
-}
-
-func Parse(input []string) ([]executer.Token, error) {
-	rawTokens, err := splitInput(input)
-	if err != nil {
-		return nil, err
-	}
-
-	var result []executer.Token
-	for _, raw := range rawTokens {
-		token, err := parseAndValidateToken(raw)
-		if err != nil {
-			return nil, err
-		}
-
-		result = append(result, token)
-	}
-
-	return result, nil
-}
-
-func splitInput(input []string) ([]unparsedToken, error) {
-	if len(input) < 1 {
-		return nil, localization.NewWithUserMsg("empty input", localization.ErrEmptyInput)
-	}
-
-	if len(input) != 1 && len(input)%2 != 1 {
-		return nil, localization.NewWithUserMsg("invalid num input tokens", localization.ErrMathSeparated)
-	}
-
-	var result []unparsedToken
-	result = append(result, unparsedToken{Operation: executer.AdditionStr, Roll: input[0]})
-	for i := 1; i+1 < len(input); i += 2 {
-		result = append(result, unparsedToken{Operation: input[i], Roll: input[i+1]})
-	}
-
-	return result, nil
-}
-
-func parseAndValidateToken(input unparsedToken) (executer.Token, error) {
+func parseAndValidateRoll(input unparsedToken) (domain.Roll, error) {
 	if looksLikeDiceRoll(input.Roll) {
-		return parseAndValidateDiceToken(input.Operation, input.Roll)
+		return parseAndValidateDiceRoll(input.Operation, input.Roll)
 	}
 
-	return parseAndValidateSimpleToken(input.Operation, input.Roll)
+	return parseAndValidateSimpleRoll(input.Operation, input.Roll)
 }
 
 func looksLikeDiceRoll(maybeRoll string) bool {
-	return strings.Contains(maybeRoll, diceSeparator)
+	return strings.Contains(maybeRoll, diceRollSeparator)
 }
 
-func parseAndValidateDiceToken(opStr, rollStr string) (*executer.DiceRoll, error) {
-	op, err := executer.ParseOperation(opStr)
+func parseAndValidateDiceRoll(opStr, rollStr string) (*domain.DiceRoll, error) {
+	op, err := parseOperation(opStr)
 	if err != nil {
 		return nil, fmt.Errorf("error occured while parsing roll token op: %w", err)
 	}
@@ -78,7 +35,7 @@ func parseAndValidateDiceToken(opStr, rollStr string) (*executer.DiceRoll, error
 		return nil, fmt.Errorf("error occured while parsing roll token roll: %w", err)
 	}
 
-	return &executer.DiceRoll{
+	return &domain.DiceRoll{
 		NumDie:    die,
 		NumFaces:  faces,
 		Operation: op,
@@ -86,7 +43,7 @@ func parseAndValidateDiceToken(opStr, rollStr string) (*executer.DiceRoll, error
 }
 
 func parseRoll(rollStr string) (die int, faces int, err error) {
-	splitRoll := strings.Split(rollStr, diceSeparator)
+	splitRoll := strings.Split(rollStr, diceRollSeparator)
 	if len(splitRoll) != 2 {
 		return 0, 0, localization.NewWithUserMsg("invalid dice roll fmt", localization.ErrInvalidDiceFmt)
 	}
@@ -110,8 +67,8 @@ func parseRoll(rollStr string) (die int, faces int, err error) {
 	return die, faces, nil
 }
 
-func parseAndValidateSimpleToken(opStr, rollStr string) (*executer.SimpleRoll, error) {
-	op, err := executer.ParseOperation(opStr)
+func parseAndValidateSimpleRoll(opStr, rollStr string) (*domain.SimpleRoll, error) {
+	op, err := parseOperation(opStr)
 	if err != nil {
 		return nil, fmt.Errorf("error occured while parsing simple token op: %w", err)
 	}
@@ -122,7 +79,7 @@ func parseAndValidateSimpleToken(opStr, rollStr string) (*executer.SimpleRoll, e
 			localization.WithUserMsg(err, localization.ErrInvalidDiceFmt))
 	}
 
-	return &executer.SimpleRoll{
+	return &domain.SimpleRoll{
 		Number:    num,
 		Operation: op,
 	}, nil

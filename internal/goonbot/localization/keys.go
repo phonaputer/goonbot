@@ -17,7 +17,8 @@ const (
 	ErrInvalidNumDie
 	ErrInvalidNumFaces
 	ErrUnknownArithmetic
-	YouRolled
-	Plus
-	Minus
+	RollTotal
+	DiceRollResult
+	SimpleRollResult
+	YourRoll
 )
