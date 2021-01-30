@@ -32,4 +32,6 @@ const (
 	DiceRollResult
 	SimpleRollResult
 	RtdSuccessTitle
+	HelpRtdTitle
+	HelpRtdDetails
 )

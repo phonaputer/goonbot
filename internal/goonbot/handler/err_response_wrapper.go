@@ -33,5 +33,5 @@ func getErrEmbed(err error, lang localization.Language) disgord.Embed {
 	name := localization.KeyToText(localization.ErrorFieldName, lang)
 	value := localization.ErrToText(err, lang)
 
-	return toDiscordEmbed(title, name, value, red)
+	return toDiscordEmbed(title, name, toCodeBlock(value), red)
 }

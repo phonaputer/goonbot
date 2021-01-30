@@ -14,3 +14,13 @@ func Help() CmdHandler {
 		return toDiscordEmbed(title, name, toCodeBlock(value), purple), nil
 	})
 }
+
+func HelpRTD() CmdHandler {
+	return flagErrWrapper(func(f flags.GlobalFlags, args []string) (interface{}, error) {
+		title := localization.KeyToText(localization.HelpTitle, f.Language)
+		name := localization.KeyToText(localization.HelpRtdTitle, f.Language)
+		value := localization.KeyToText(localization.HelpRtdDetails, f.Language)
+
+		return toDiscordEmbed(title, name, toCodeBlock(value), purple), nil
+	})
+}

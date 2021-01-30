@@ -51,6 +51,7 @@ func getConfig() (config, error) {
 
 func getCmdPathRouter() handler.CmdRouter {
 	r := handler.NewCmdRouter("!goonbot", handler.UnknownCommand())
+	r.HandlePath("help rtd", handler.HelpRTD())
 	r.HandlePath("help", handler.Help())
 	r.HandlePath("rtd", handler.Rtd())
 
